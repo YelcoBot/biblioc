@@ -2,7 +2,7 @@
 <html lang="es-co">
 
 <head>
-    @include('layout.partials.head')
+    @include('partials.head')
 </head>
 
 <body class="animsition">
@@ -11,7 +11,7 @@
         <!-- PAGE CONTAINER-->
         <div class="page-container">
             <!-- HEADER -->
-            @include('layout.partials.header')
+            @include('partials.header')
             <!-- HEADER -->
 
             <!-- MAIN CONTENT-->
@@ -19,7 +19,7 @@
                 <div class="section__content section__content--p30">
                     <div class="container-fluid">
                         @yield('content')
-                        @include('layout.partials.footer')
+                        @include('partials.footer')
                     </div>
                 </div>
             </div>
@@ -29,7 +29,7 @@
 
     </div>
 
-    @include('layout.partials.footer-scripts')
+    @include('partials.footer-scripts')
 
 </body>
 

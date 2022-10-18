@@ -21,8 +21,13 @@
                             <form action="" method="post">
                                 <div class="form-group">
                                     <label>Usuario</label>
-                                    <input class="au-input au-input--full" type="text" name="user"
+                                    <input class="au-input au-input--full" type="text" name="username"
                                         placeholder="Usuario">
+                                </div>
+                                <div class="form-group">
+                                    <label>Email</label>
+                                    <input class="au-input au-input--full" type="email" name="email"
+                                        placeholder="Email">
                                 </div>
                                 <div class="form-group">
                                     <label>Contrase&ntilde;a</label>
@@ -31,19 +36,16 @@
                                 </div>
                                 <div class="login-checkbox">
                                     <label>
-                                        <input type="checkbox" name="remember">Recuérdame
-                                    </label>
-                                    <label>
-                                        <a href="#">Olvide mi contraseña?</a>
+                                        <input type="checkbox" name="aggree">Acepta los términos y políticas
                                     </label>
                                 </div>
                                 <button class="au-btn au-btn--block au-btn--green m-b-20"
-                                    type="submit">Ingresar</button>
+                                    type="submit">Registrarme</button>
                             </form>
                             <div class="register-link">
                                 <p>
-                                    No tiene una cuenta?
-                                    <a href="./register.html">Regístrate aquí</a>
+                                    Ya tiene una cuenta?
+                                    <a href="#">Ingresa aquí</a>
                                 </p>
                             </div>
                         </div>

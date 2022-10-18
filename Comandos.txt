@@ -1,2 +1,5 @@
 composer create-project laravel/laravel biblioc
 php artisan serve
+
+php artisan make:controller UserController --resource
+php artisan make:controller AuthController --resource
