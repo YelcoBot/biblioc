@@ -4,6 +4,8 @@
 -- ------------------------------------------------------
 -- Server version	8.0.30-0ubuntu0.22.04.1
 
+USE biblioteca;
+
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
@@ -31,15 +33,6 @@ CREATE TABLE `autor` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `autor`
---
-
-LOCK TABLES `autor` WRITE;
-/*!40000 ALTER TABLE `autor` DISABLE KEYS */;
-/*!40000 ALTER TABLE `autor` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `categorias`
 --
 
@@ -53,15 +46,6 @@ CREATE TABLE `categorias` (
   KEY `nombre` (`nombre`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish2_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `categorias`
---
-
-LOCK TABLES `categorias` WRITE;
-/*!40000 ALTER TABLE `categorias` DISABLE KEYS */;
-/*!40000 ALTER TABLE `categorias` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `consulta_libro`
@@ -83,15 +67,6 @@ CREATE TABLE `consulta_libro` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `consulta_libro`
---
-
-LOCK TABLES `consulta_libro` WRITE;
-/*!40000 ALTER TABLE `consulta_libro` DISABLE KEYS */;
-/*!40000 ALTER TABLE `consulta_libro` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `editorial`
 --
 
@@ -105,15 +80,6 @@ CREATE TABLE `editorial` (
   KEY `cod_editorial` (`nombre`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish2_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `editorial`
---
-
-LOCK TABLES `editorial` WRITE;
-/*!40000 ALTER TABLE `editorial` DISABLE KEYS */;
-/*!40000 ALTER TABLE `editorial` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `libro`
@@ -141,15 +107,6 @@ CREATE TABLE `libro` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `libro`
---
-
-LOCK TABLES `libro` WRITE;
-/*!40000 ALTER TABLE `libro` DISABLE KEYS */;
-/*!40000 ALTER TABLE `libro` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `libro_autor`
 --
 
@@ -169,15 +126,6 @@ CREATE TABLE `libro_autor` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `libro_autor`
---
-
-LOCK TABLES `libro_autor` WRITE;
-/*!40000 ALTER TABLE `libro_autor` DISABLE KEYS */;
-/*!40000 ALTER TABLE `libro_autor` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `rol`
 --
 
@@ -190,16 +138,6 @@ CREATE TABLE `rol` (
   PRIMARY KEY (`id_rol`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish2_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `rol`
---
-
-LOCK TABLES `rol` WRITE;
-/*!40000 ALTER TABLE `rol` DISABLE KEYS */;
-INSERT INTO `rol` VALUES (1,'Administrador');
-/*!40000 ALTER TABLE `rol` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `user`
@@ -224,16 +162,6 @@ CREATE TABLE `user` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `user`
---
-
-LOCK TABLES `user` WRITE;
-/*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (4,'pedro','talero','123','pedro@gmail.com',NULL,NULL,'2022-10-19 00:00:00',NULL);
-/*!40000 ALTER TABLE `user` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `volumen`
 --
 
@@ -248,15 +176,6 @@ CREATE TABLE `volumen` (
   KEY `cod_libro` (`cod_libro`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish2_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `volumen`
---
-
-LOCK TABLES `volumen` WRITE;
-/*!40000 ALTER TABLE `volumen` DISABLE KEYS */;
-/*!40000 ALTER TABLE `volumen` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -267,4 +186,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-10-19  8:21:47
+-- Dump completed on 2022-10-19  8:22:09
