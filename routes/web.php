@@ -20,4 +20,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [AuthController::class, 'login']);
 Route::get('/register', [AuthController::class, 'register']);
+Route::post('/signin', [AuthController::class, 'signin']);
+Route::post('/authenticate', [AuthController::class, 'authenticate']);
 //Route::get('/user/{id}', [UserController::class, 'show']);

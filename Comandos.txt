@@ -3,3 +3,14 @@ php artisan serve
 
 php artisan make:controller UserController --resource
 php artisan make:controller AuthController --resource
+
+php artisan make:model Flight
+
+
+php artisan cache:clear
+php artisan config:clear
+php artisan config:cache
+
+
+php artisan tinker
+DB::connection()->getPdo();

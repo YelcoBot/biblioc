@@ -17,3 +17,6 @@
 
 <!-- Main JS-->
 <script src="{!! asset('js/main.js') !!}"></script>
+
+<!-- App JS-->
+<script src="{!! asset('js/app.js') !!}"></script>

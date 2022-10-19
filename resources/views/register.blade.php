@@ -18,11 +18,17 @@
                             </a>
                         </div>
                         <div class="login-form">
-                            <form action="" method="post">
+                            <form id="FormRegister" action="" method="post" onsubmit="return false;">
+                                @csrf
                                 <div class="form-group">
-                                    <label>Usuario</label>
-                                    <input class="au-input au-input--full" type="text" name="username"
-                                        placeholder="Usuario">
+                                    <label>Nombre</label>
+                                    <input class="au-input au-input--full" type="text" name="nombre"
+                                        placeholder="Nombre">
+                                </div>
+                                <div class="form-group">
+                                    <label>Apellido</label>
+                                    <input class="au-input au-input--full" type="text" name="apellido"
+                                        placeholder="Apellido">
                                 </div>
                                 <div class="form-group">
                                     <label>Email</label>

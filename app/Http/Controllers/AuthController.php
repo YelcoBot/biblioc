@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -16,15 +18,23 @@ class AuthController extends Controller
         return view('register');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function authenticate(Request $request)
     {
-        //
+        $credentials = $request->only('email', 'password');
+
+        if (Auth::attempt($credentials)) {
+            return redirect()->intended('dashboard');
+        }
+    }
+
+    public function signin(Request $request)
+    {
+        $user = new User();
+        $user->nombre = $request->nombre;
+        $user->apellido = $request->apellido;
+        $user->email = $request->email;
+        $user->password = bcrypt($request->password);
+        $user->save();
     }
 
     /**
