@@ -10,15 +10,37 @@ $(document).ready(function () {
             data: data,
             cache: false,
             processData: false,
-        }); /*
-            .done(function () {
-                alert("success");
-            })
-            .fail(function () {
-                alert("error");
-            })
-            .always(function () {
-                alert("complete");
-            });*/
+            success: function (jsonData) {
+                if (jsonData.status == "OK") {
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: jsonData.message,
+                        showConfirmButton: false,
+                        timer: 1500,
+                    }).then((result) => {
+                        window.location.replace("/");
+                    });
+                } else {
+                    console.log("========'Exception Response'=========");
+                    console.log(jsonData.exception);
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: jsonData.message,
+                    });
+                }
+            },
+            error: function (xhr, status) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "A ocurrido un error, por favor inténtelo de nuevo!!",
+                });
+            },
+            complete: function (xhr, status) {
+                //alert('Petición realizada');
+            },
+        });
     });
 });

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -29,12 +31,18 @@ class AuthController extends Controller
 
     public function signin(Request $request)
     {
-        $user = new User();
-        $user->nombre = $request->nombre;
-        $user->apellido = $request->apellido;
-        $user->email = $request->email;
-        $user->password = bcrypt($request->password);
-        $user->save();
+        try {
+            $user = new User();
+            $user->nombre = $request->nombre;
+            $user->apellido = $request->apellido;
+            $user->email = $request->email;
+            $user->password = bcrypt($request->password);
+            $user->save();
+        } catch (Exception $ex) {
+            return response()->json(['status' => 'NOK', 'timestamp' => Carbon::now(), "message" => "Error al registrar el usuario!!", "data" => $user, "exception" => $ex]);
+        }
+
+        return response()->json(['status' => 'OK', 'timestamp' => Carbon::now(), "message" => "Usuario registrado correctamente!!", "data" => $user, "exception" => null]);
     }
 
     /**
