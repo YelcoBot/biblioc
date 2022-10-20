@@ -26,6 +26,7 @@
 <link href="{!! asset('vendor/select2/select2.min.css') !!}" rel="stylesheet" media="all">
 <link href="{!! asset('vendor/perfect-scrollbar/perfect-scrollbar.css') !!}" rel="stylesheet" media="all">
 <link href="{!! asset('vendor/sweetalert/sweetalert2.min.css') !!}" rel="stylesheet" media="all">
+<link href="{!! asset('vendor/datatables/datatables.min.css') !!}" rel="stylesheet" media="all">
 
 <!-- Main CSS-->
 <link href="{!! asset('css/theme.css') !!}" rel="stylesheet" media="all">

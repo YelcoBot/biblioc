@@ -3,6 +3,8 @@ php artisan serve
 
 php artisan make:controller UserController --resource
 php artisan make:controller AuthController --resource
+php artisan make:controller HomeController --resource
+
 
 php artisan make:model Flight
 
@@ -10,9 +12,16 @@ php artisan make:model Flight
 php artisan cache:clear
 php artisan config:clear
 php artisan config:cache
+php artisan cache:clear
+php artisan route:cache
+php artisan view:clear
+composer dumpautoload
+php artisan serve
 
 
 php artisan tinker
 DB::connection()->getPdo();
 
 composer install
+
+composer dumpautoload

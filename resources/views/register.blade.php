@@ -51,7 +51,7 @@
                             <div class="register-link">
                                 <p>
                                     Ya tiene una cuenta?
-                                    <a href="#">Ingresa aquí</a>
+                                    <a href="{!! url('/') !!}">Ingresa aquí</a>
                                 </p>
                             </div>
                         </div>

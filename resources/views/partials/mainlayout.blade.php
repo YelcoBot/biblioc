@@ -8,10 +8,14 @@
 <body class="animsition">
 
     <div class="page-wrapper">
+        <!-- HEADER -->
+        @include('partials.header')
+        <!-- HEADER -->
+
         <!-- PAGE CONTAINER-->
         <div class="page-container">
             <!-- HEADER -->
-            @include('partials.header')
+            @include('partials.nav')
             <!-- HEADER -->
 
             <!-- MAIN CONTENT-->
@@ -24,6 +28,10 @@
                 </div>
             </div>
             <!-- END MAIN CONTENT-->
+
+            <!-- MODAL -->
+            @include('partials.modal')
+            <!-- MODAL -->
         </div>
         <!-- END PAGE CONTAINER-->
 

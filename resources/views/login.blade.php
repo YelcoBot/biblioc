@@ -18,11 +18,12 @@
                             </a>
                         </div>
                         <div class="login-form">
-                            <form action="" method="post">
+                            <form id="FormLogin" action="" method="post" onsubmit="return false;">
+                                @csrf
                                 <div class="form-group">
-                                    <label>Usuario</label>
-                                    <input class="au-input au-input--full" type="text" name="user"
-                                        placeholder="Usuario">
+                                    <label>Email</label>
+                                    <input class="au-input au-input--full" type="text" name="email"
+                                        placeholder="Email">
                                 </div>
                                 <div class="form-group">
                                     <label>Contrase&ntilde;a</label>
@@ -43,7 +44,7 @@
                             <div class="register-link">
                                 <p>
                                     No tiene una cuenta?
-                                    <a href="./register.html">Regístrate aquí</a>
+                                    <a href="{!! url('register') !!}">Regístrate aquí</a>
                                 </p>
                             </div>
                         </div>

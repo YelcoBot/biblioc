@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,7 +21,19 @@ use Illuminate\Support\Facades\Route;
 });*/
 
 Route::get('/', [AuthController::class, 'login']);
+Route::get('/login', [AuthController::class, 'login']);
 Route::get('/register', [AuthController::class, 'register']);
 Route::post('/signin', [AuthController::class, 'signin']);
 Route::post('/authenticate', [AuthController::class, 'authenticate']);
+
+Route::get('/dashboard', [HomeController::class, 'dashboard'])->middleware('auth');
+
+Route::get('/usuarios', [UserController::class, 'list'])->middleware('auth');
+Route::get('/usuario', [UserController::class, 'index'])->middleware('auth');
+Route::get('/usuario/{id}', [UserController::class, 'show'])->middleware('auth');
+Route::delete('/usuario/{id}', [UserController::class, 'destroy'])->middleware('auth');
+Route::post('/usuario', [UserController::class, 'store'])->middleware('auth');
+
+
+
 //Route::get('/user/{id}', [UserController::class, 'show']);
