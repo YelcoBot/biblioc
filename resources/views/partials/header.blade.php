@@ -148,7 +148,7 @@
                 </li>
                 <li class="has-sub">
                     <a class="js-arrow" href="#">
-                        <i class="fas fa-user"></i>Usuarios & Roles</a>
+                        <i class="fas fa-users"></i>Usuarios & Roles</a>
                     <ul class="list-unstyled navbar__sub-list js-sub-list">
                         <li>
                             <a href="{!! url('usuario') !!}">Usuarios</a>
@@ -157,6 +157,18 @@
                             <a href="{!! url('rol') !!}">Roles</a>
                         </li>
                     </ul>
+                </li>
+                <li>
+                    <a href="{!! url('autor') !!}">
+                        <i class="fas fa-address-book"></i>Autores</a>
+                </li>
+                <li>
+                    <a href="{!! url('categoria') !!}">
+                        <i class="fa-solid fa-layer-group"></i>Categorias</a>
+                </li>
+                <li>
+                    <a href="{!! url('editorial') !!}">
+                        <i class="fas fa-newspaper"></i>Editoriales</a>
                 </li>
                 <li class="active has-sub">
                     <a class="js-arrow" href="#">

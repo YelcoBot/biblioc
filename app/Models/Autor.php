@@ -9,7 +9,7 @@ class Autor extends Model
 {
     use HasFactory;
 
-    protected $table = 'rol';
+    protected $table = 'autor';
 
     protected $fillable = [
         'nombre',

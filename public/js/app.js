@@ -485,4 +485,604 @@ $(document).ready(function () {
             });
         });
     });
+
+    //Autor
+    var tableAutor = $("#TableAutor").DataTable({
+        ajax: "/autores",
+        language: {
+            processing: "Procesando...",
+            lengthMenu: "Mostrar _MENU_ registros",
+            zeroRecords: "No se encontraron resultados",
+            emptyTable: "Ningún dato disponible en esta tabla",
+            infoEmpty:
+                "Mostrando registros del 0 al 0 de un total de 0 registros",
+            infoFiltered: "(filtrado de un total de _MAX_ registros)",
+            search: "Buscar:",
+            infoThousands: ",",
+            loadingRecords: "Cargando...",
+            paginate: {
+                first: "Primero",
+                last: "Último",
+                next: "Siguiente",
+                previous: "Anterior",
+            },
+            aria: {
+                sortAscending:
+                    ": Activar para ordenar la columna de manera ascendente",
+                sortDescending:
+                    ": Activar para ordenar la columna de manera descendente",
+            },
+            decimal: ",",
+            thousands: ".",
+            info: "Mostrando _START_ a _END_ de _TOTAL_ registros",
+        },
+    });
+    $("#FormAutor").on("submit", function () {
+        var data = $(this).serialize();
+        $.ajax({
+            method: "POST",
+            url: "/autor",
+            dataType: "json",
+            data: data,
+            cache: false,
+            processData: false,
+            success: function (jsonData) {
+                if (jsonData.status == "OK") {
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: jsonData.message,
+                        showConfirmButton: false,
+                        timer: 1500,
+                    }).then((result) => {
+                        tableAutor.ajax.reload();
+                        $("#ModalAutor").modal("hide");
+                    });
+                } else {
+                    console.log("========'Exception Response'=========");
+                    console.log(jsonData.exception);
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: jsonData.message,
+                    });
+                }
+            },
+            error: function (xhr, status) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "A ocurrido un error, por favor inténtelo de nuevo!!",
+                });
+            },
+            complete: function (xhr, status) {
+                //alert('Petición realizada');
+            },
+        });
+    });
+    $("#BtnNewAutor").on("click", function () {
+        $("#FormAutor")[0].reset();
+        $("#FormAutor [name='metodo']").val("Crear");
+        $("#FormAutor [name='id']").val("");
+        $("#ModalAutor").modal({
+            keyboard: false,
+            backdrop: "static",
+        });
+    });
+    $("#TableAutor").on("click", ".btn-edit", function () {
+        $("#FormAutor")[0].reset();
+        $("#FormAutor [name='metodo']").val("Editar");
+        $("#FormAutor [name='id']").val("");
+
+        var id = $(this).attr("idautor");
+        $.ajax({
+            method: "GET",
+            url: "/autor/" + id,
+            dataType: "json",
+            cache: false,
+            processData: false,
+            success: function (jsonData) {
+                if (jsonData.status == "OK") {
+                    for (const [key, value] of Object.entries(jsonData.data)) {
+                        if (key == "estado") {
+                            if (value == "1") {
+                                $(`#FormAutor [name="${key}"]`).prop(
+                                    "checked",
+                                    true
+                                );
+                            }
+                        } else {
+                            $(`#FormAutor [name="${key}"]`).val(value);
+                        }
+                    }
+
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: jsonData.message,
+                        showConfirmButton: false,
+                        timer: 1500,
+                    }).then((result) => {
+                        $("#ModalAutor").modal({
+                            keyboard: false,
+                            backdrop: "static",
+                        });
+                    });
+                } else {
+                    console.log("========'Exception Response'=========");
+                    console.log(jsonData.exception);
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: jsonData.message,
+                    });
+                }
+            },
+            error: function (xhr, status) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "A ocurrido un error, por favor inténtelo de nuevo!!",
+                });
+            },
+            complete: function (xhr, status) {
+                //alert('Petición realizada');
+            },
+        });
+    });
+    $("#TableAutor").on("click", ".btn-delete", function () {
+        var id = $(this).attr("idautor");
+
+        Swal.fire({
+            icon: "warning",
+            title: "¿Estas segur@?",
+            text: "¡No podrás revertir esto!",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            cancelButtonText: "Cancelar",
+            confirmButtonText: "Si, eliminarlo!",
+        }).then((result) => {
+            var data = $("#FormDelete").serialize();
+            $.ajax({
+                method: "DELETE",
+                url: "/autor/" + id,
+                dataType: "json",
+                data: data,
+                cache: false,
+                processData: false,
+                success: function (jsonData) {
+                    if (jsonData.status == "OK") {
+                        Swal.fire({
+                            position: "top-end",
+                            icon: "success",
+                            title: jsonData.message,
+                            showConfirmButton: false,
+                            timer: 1500,
+                        }).then((result) => {
+                            tableAutor.ajax.reload();
+                        });
+                    } else {
+                        console.log("========'Exception Response'=========");
+                        console.log(jsonData.exception);
+                        Swal.fire({
+                            icon: "error",
+                            title: "Oops...",
+                            text: jsonData.message,
+                        });
+                    }
+                },
+                error: function (xhr, status) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: "A ocurrido un error, por favor inténtelo de nuevo!!",
+                    });
+                },
+                complete: function (xhr, status) {
+                    //alert('Petición realizada');
+                },
+            });
+        });
+    });
+
+    //Categoria
+    var tableCategoria = $("#TableCategoria").DataTable({
+        ajax: "/categorias",
+        language: {
+            processing: "Procesando...",
+            lengthMenu: "Mostrar _MENU_ registros",
+            zeroRecords: "No se encontraron resultados",
+            emptyTable: "Ningún dato disponible en esta tabla",
+            infoEmpty:
+                "Mostrando registros del 0 al 0 de un total de 0 registros",
+            infoFiltered: "(filtrado de un total de _MAX_ registros)",
+            search: "Buscar:",
+            infoThousands: ",",
+            loadingRecords: "Cargando...",
+            paginate: {
+                first: "Primero",
+                last: "Último",
+                next: "Siguiente",
+                previous: "Anterior",
+            },
+            aria: {
+                sortAscending:
+                    ": Activar para ordenar la columna de manera ascendente",
+                sortDescending:
+                    ": Activar para ordenar la columna de manera descendente",
+            },
+            decimal: ",",
+            thousands: ".",
+            info: "Mostrando _START_ a _END_ de _TOTAL_ registros",
+        },
+    });
+    $("#FormCategoria").on("submit", function () {
+        var data = $(this).serialize();
+        $.ajax({
+            method: "POST",
+            url: "/categoria",
+            dataType: "json",
+            data: data,
+            cache: false,
+            processData: false,
+            success: function (jsonData) {
+                if (jsonData.status == "OK") {
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: jsonData.message,
+                        showConfirmButton: false,
+                        timer: 1500,
+                    }).then((result) => {
+                        tableCategoria.ajax.reload();
+                        $("#ModalCategoria").modal("hide");
+                    });
+                } else {
+                    console.log("========'Exception Response'=========");
+                    console.log(jsonData.exception);
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: jsonData.message,
+                    });
+                }
+            },
+            error: function (xhr, status) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "A ocurrido un error, por favor inténtelo de nuevo!!",
+                });
+            },
+            complete: function (xhr, status) {
+                //alert('Petición realizada');
+            },
+        });
+    });
+    $("#BtnNewCategoria").on("click", function () {
+        $("#FormCategoria")[0].reset();
+        $("#FormCategoria [name='metodo']").val("Crear");
+        $("#FormCategoria [name='id']").val("");
+        $("#ModalCategoria").modal({
+            keyboard: false,
+            backdrop: "static",
+        });
+    });
+    $("#TableCategoria").on("click", ".btn-edit", function () {
+        $("#FormCategoria")[0].reset();
+        $("#FormCategoria [name='metodo']").val("Editar");
+        $("#FormCategoria [name='id']").val("");
+
+        var id = $(this).attr("idcategoria");
+        $.ajax({
+            method: "GET",
+            url: "/categoria/" + id,
+            dataType: "json",
+            cache: false,
+            processData: false,
+            success: function (jsonData) {
+                if (jsonData.status == "OK") {
+                    for (const [key, value] of Object.entries(jsonData.data)) {
+                        if (key == "estado") {
+                            if (value == "1") {
+                                $(`#FormCategoria [name="${key}"]`).prop(
+                                    "checked",
+                                    true
+                                );
+                            }
+                        } else {
+                            $(`#FormCategoria [name="${key}"]`).val(value);
+                        }
+                    }
+
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: jsonData.message,
+                        showConfirmButton: false,
+                        timer: 1500,
+                    }).then((result) => {
+                        $("#ModalCategoria").modal({
+                            keyboard: false,
+                            backdrop: "static",
+                        });
+                    });
+                } else {
+                    console.log("========'Exception Response'=========");
+                    console.log(jsonData.exception);
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: jsonData.message,
+                    });
+                }
+            },
+            error: function (xhr, status) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "A ocurrido un error, por favor inténtelo de nuevo!!",
+                });
+            },
+            complete: function (xhr, status) {
+                //alert('Petición realizada');
+            },
+        });
+    });
+    $("#TableCategoria").on("click", ".btn-delete", function () {
+        var id = $(this).attr("idcategoria");
+
+        Swal.fire({
+            icon: "warning",
+            title: "¿Estas segur@?",
+            text: "¡No podrás revertir esto!",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            cancelButtonText: "Cancelar",
+            confirmButtonText: "Si, eliminarlo!",
+        }).then((result) => {
+            var data = $("#FormDelete").serialize();
+            $.ajax({
+                method: "DELETE",
+                url: "/categoria/" + id,
+                dataType: "json",
+                data: data,
+                cache: false,
+                processData: false,
+                success: function (jsonData) {
+                    if (jsonData.status == "OK") {
+                        Swal.fire({
+                            position: "top-end",
+                            icon: "success",
+                            title: jsonData.message,
+                            showConfirmButton: false,
+                            timer: 1500,
+                        }).then((result) => {
+                            tableCategoria.ajax.reload();
+                        });
+                    } else {
+                        console.log("========'Exception Response'=========");
+                        console.log(jsonData.exception);
+                        Swal.fire({
+                            icon: "error",
+                            title: "Oops...",
+                            text: jsonData.message,
+                        });
+                    }
+                },
+                error: function (xhr, status) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: "A ocurrido un error, por favor inténtelo de nuevo!!",
+                    });
+                },
+                complete: function (xhr, status) {
+                    //alert('Petición realizada');
+                },
+            });
+        });
+    });
+
+    //Editorial
+    var tableEditorial = $("#TableEditorial").DataTable({
+        ajax: "/editoriales",
+        language: {
+            processing: "Procesando...",
+            lengthMenu: "Mostrar _MENU_ registros",
+            zeroRecords: "No se encontraron resultados",
+            emptyTable: "Ningún dato disponible en esta tabla",
+            infoEmpty:
+                "Mostrando registros del 0 al 0 de un total de 0 registros",
+            infoFiltered: "(filtrado de un total de _MAX_ registros)",
+            search: "Buscar:",
+            infoThousands: ",",
+            loadingRecords: "Cargando...",
+            paginate: {
+                first: "Primero",
+                last: "Último",
+                next: "Siguiente",
+                previous: "Anterior",
+            },
+            aria: {
+                sortAscending:
+                    ": Activar para ordenar la columna de manera ascendente",
+                sortDescending:
+                    ": Activar para ordenar la columna de manera descendente",
+            },
+            decimal: ",",
+            thousands: ".",
+            info: "Mostrando _START_ a _END_ de _TOTAL_ registros",
+        },
+    });
+    $("#FormEditorial").on("submit", function () {
+        var data = $(this).serialize();
+        $.ajax({
+            method: "POST",
+            url: "/editorial",
+            dataType: "json",
+            data: data,
+            cache: false,
+            processData: false,
+            success: function (jsonData) {
+                if (jsonData.status == "OK") {
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: jsonData.message,
+                        showConfirmButton: false,
+                        timer: 1500,
+                    }).then((result) => {
+                        tableEditorial.ajax.reload();
+                        $("#ModalEditorial").modal("hide");
+                    });
+                } else {
+                    console.log("========'Exception Response'=========");
+                    console.log(jsonData.exception);
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: jsonData.message,
+                    });
+                }
+            },
+            error: function (xhr, status) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "A ocurrido un error, por favor inténtelo de nuevo!!",
+                });
+            },
+            complete: function (xhr, status) {
+                //alert('Petición realizada');
+            },
+        });
+    });
+    $("#BtnNewEditorial").on("click", function () {
+        $("#FormEditorial")[0].reset();
+        $("#FormEditorial [name='metodo']").val("Crear");
+        $("#FormEditorial [name='id']").val("");
+        $("#ModalEditorial").modal({
+            keyboard: false,
+            backdrop: "static",
+        });
+    });
+    $("#TableEditorial").on("click", ".btn-edit", function () {
+        $("#FormEditorial")[0].reset();
+        $("#FormEditorial [name='metodo']").val("Editar");
+        $("#FormEditorial [name='id']").val("");
+
+        var id = $(this).attr("ideditorial");
+        $.ajax({
+            method: "GET",
+            url: "/editorial/" + id,
+            dataType: "json",
+            cache: false,
+            processData: false,
+            success: function (jsonData) {
+                if (jsonData.status == "OK") {
+                    for (const [key, value] of Object.entries(jsonData.data)) {
+                        if (key == "estado") {
+                            if (value == "1") {
+                                $(`#FormEditorial [name="${key}"]`).prop(
+                                    "checked",
+                                    true
+                                );
+                            }
+                        } else {
+                            $(`#FormEditorial [name="${key}"]`).val(value);
+                        }
+                    }
+
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: jsonData.message,
+                        showConfirmButton: false,
+                        timer: 1500,
+                    }).then((result) => {
+                        $("#ModalEditorial").modal({
+                            keyboard: false,
+                            backdrop: "static",
+                        });
+                    });
+                } else {
+                    console.log("========'Exception Response'=========");
+                    console.log(jsonData.exception);
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: jsonData.message,
+                    });
+                }
+            },
+            error: function (xhr, status) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "A ocurrido un error, por favor inténtelo de nuevo!!",
+                });
+            },
+            complete: function (xhr, status) {
+                //alert('Petición realizada');
+            },
+        });
+    });
+    $("#TableEditorial").on("click", ".btn-delete", function () {
+        var id = $(this).attr("ideditorial");
+
+        Swal.fire({
+            icon: "warning",
+            title: "¿Estas segur@?",
+            text: "¡No podrás revertir esto!",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            cancelButtonText: "Cancelar",
+            confirmButtonText: "Si, eliminarlo!",
+        }).then((result) => {
+            var data = $("#FormDelete").serialize();
+            $.ajax({
+                method: "DELETE",
+                url: "/editorial/" + id,
+                dataType: "json",
+                data: data,
+                cache: false,
+                processData: false,
+                success: function (jsonData) {
+                    if (jsonData.status == "OK") {
+                        Swal.fire({
+                            position: "top-end",
+                            icon: "success",
+                            title: jsonData.message,
+                            showConfirmButton: false,
+                            timer: 1500,
+                        }).then((result) => {
+                            tableEditorial.ajax.reload();
+                        });
+                    } else {
+                        console.log("========'Exception Response'=========");
+                        console.log(jsonData.exception);
+                        Swal.fire({
+                            icon: "error",
+                            title: "Oops...",
+                            text: jsonData.message,
+                        });
+                    }
+                },
+                error: function (xhr, status) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: "A ocurrido un error, por favor inténtelo de nuevo!!",
+                    });
+                },
+                complete: function (xhr, status) {
+                    //alert('Petición realizada');
+                },
+            });
+        });
+    });
 });
