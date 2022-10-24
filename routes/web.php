@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LibroController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AutorController;
 use App\Http\Controllers\CategoriaController;
@@ -61,6 +62,12 @@ Route::get('/editorial', [EditorialController::class, 'index'])->middleware('aut
 Route::get('/editorial/{id}', [EditorialController::class, 'show'])->middleware('auth');
 Route::delete('/editorial/{id}', [EditorialController::class, 'destroy'])->middleware('auth');
 Route::post('/editorial', [EditorialController::class, 'store'])->middleware('auth');
+
+Route::get('/libros', [LibroController::class, 'list'])->middleware('auth');
+Route::get('/libro', [LibroController::class, 'index'])->middleware('auth');
+Route::get('/libro/{id}', [LibroController::class, 'show'])->middleware('auth');
+Route::delete('/libro/{id}', [LibroController::class, 'destroy'])->middleware('auth');
+Route::post('/libro', [LibroController::class, 'store'])->middleware('auth');
 
 
 

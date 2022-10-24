@@ -168,4 +168,56 @@
         </div>
     </div>
 </div>
+<!-- LIBRO -->
+<div class="modal fade" id="ModalLibro" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <form id="FormLibro" action="" method="post" onsubmit="return false;">
+                @csrf
+                <input name="metodo" type="hidden" />
+                <input name="id" type="hidden" />
+                <div class="modal-header">
+                    <h5 class="modal-title">Información del libro</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Titulo</label>
+                        <input class="au-input au-input--full" type="text" name="titulo" placeholder="Titulo">
+                    </div>
+                    <div class="form-group">
+                        <label>No. paginas</label>
+                        <input class="au-input au-input--full" type="number" name="n_pag">
+                    </div>
+                    <div class="form-group">
+                        <label>Fecha Edici&oacute;n</label>
+                        <input class="au-input au-input--full" type="date" name="fecha_edicion">
+                    </div>
+                    <div class="form-group">
+                        <label>Editorial</label>
+                        <select name="id_editorial" class="form-control">
+                            <option value="">Seleccione...</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Categoria</label>
+                        <select name="id_categoria" class="form-control">
+                            <option value="">Seleccione...</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Archivo</label>
+                        <input class="au-input au-input--full" type="file" name="file" accept=".pdf">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 <!-- MODAL -->

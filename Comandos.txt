@@ -8,12 +8,14 @@ php artisan make:controller RolController --resource
 php artisan make:controller AutorController --resource
 php artisan make:controller EditorialController --resource
 php artisan make:controller CategoriaController --resource
+php artisan make:controller LibroController --resource
 
 
 php artisan make:model Rol
 php artisan make:model Autor
 php artisan make:model Editorial
 php artisan make:model Categoria
+php artisan make:model Libro
 
 
 php artisan cache:clear

@@ -1086,3 +1086,203 @@ $(document).ready(function () {
         });
     });
 });
+
+//Libro
+var tableLibro = $("#TableLibro").DataTable({
+    ajax: "/libros",
+    language: {
+        processing: "Procesando...",
+        lengthMenu: "Mostrar _MENU_ registros",
+        zeroRecords: "No se encontraron resultados",
+        emptyTable: "Ningún dato disponible en esta tabla",
+        infoEmpty:
+            "Mostrando registros del 0 al 0 de un total de 0 registros",
+        infoFiltered: "(filtrado de un total de _MAX_ registros)",
+        search: "Buscar:",
+        infoThousands: ",",
+        loadingRecords: "Cargando...",
+        paginate: {
+            first: "Primero",
+            last: "Último",
+            next: "Siguiente",
+            previous: "Anterior",
+        },
+        aria: {
+            sortAscending:
+                ": Activar para ordenar la columna de manera ascendente",
+            sortDescending:
+                ": Activar para ordenar la columna de manera descendente",
+        },
+        decimal: ",",
+        thousands: ".",
+        info: "Mostrando _START_ a _END_ de _TOTAL_ registros",
+    },
+});
+$("#FormLibro").on("submit", function () {
+    var data = $(this).serialize();
+    $.ajax({
+        method: "POST",
+        url: "/libro",
+        dataType: "json",
+        data: data,
+        cache: false,
+        processData: false,
+        success: function (jsonData) {
+            if (jsonData.status == "OK") {
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: jsonData.message,
+                    showConfirmButton: false,
+                    timer: 1500,
+                }).then((result) => {
+                    tableLibro.ajax.reload();
+                    $("#ModalLibro").modal("hide");
+                });
+            } else {
+                console.log("========'Exception Response'=========");
+                console.log(jsonData.exception);
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: jsonData.message,
+                });
+            }
+        },
+        error: function (xhr, status) {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "A ocurrido un error, por favor inténtelo de nuevo!!",
+            });
+        },
+        complete: function (xhr, status) {
+            //alert('Petición realizada');
+        },
+    });
+});
+$("#BtnNewLibro").on("click", function () {
+    $("#FormLibro")[0].reset();
+    $("#FormLibro [name='metodo']").val("Crear");
+    $("#FormLibro [name='id']").val("");
+    $("#ModalLibro").modal({
+        keyboard: false,
+        backdrop: "static",
+    });
+});
+$("#TableLibro").on("click", ".btn-edit", function () {
+    $("#FormLibro")[0].reset();
+    $("#FormLibro [name='metodo']").val("Editar");
+    $("#FormLibro [name='id']").val("");
+
+    var id = $(this).attr("iduser");
+    $.ajax({
+        method: "GET",
+        url: "/libro/" + id,
+        dataType: "json",
+        cache: false,
+        processData: false,
+        success: function (jsonData) {
+            if (jsonData.status == "OK") {
+                for (const [key, value] of Object.entries(jsonData.data)) {
+                    if (key == "estado") {
+                        if (value == "1") {
+                            $(`#FormLibro [name="${key}"]`).prop(
+                                "checked",
+                                true
+                            );
+                        }
+                    } else {
+                        $(`#FormLibro [name="${key}"]`).val(value);
+                    }
+                }
+
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: jsonData.message,
+                    showConfirmButton: false,
+                    timer: 1500,
+                }).then((result) => {
+                    $("#ModalLibro").modal({
+                        keyboard: false,
+                        backdrop: "static",
+                    });
+                });
+            } else {
+                console.log("========'Exception Response'=========");
+                console.log(jsonData.exception);
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: jsonData.message,
+                });
+            }
+        },
+        error: function (xhr, status) {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "A ocurrido un error, por favor inténtelo de nuevo!!",
+            });
+        },
+        complete: function (xhr, status) {
+            //alert('Petición realizada');
+        },
+    });
+});
+$("#TableLibro").on("click", ".btn-delete", function () {
+    var id = $(this).attr("iduser");
+
+    Swal.fire({
+        icon: "warning",
+        title: "¿Estas segur@?",
+        text: "¡No podrás revertir esto!",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        cancelButtonText: "Cancelar",
+        confirmButtonText: "Si, eliminarlo!",
+    }).then((result) => {
+        var data = $("#FormDelete").serialize();
+        $.ajax({
+            method: "DELETE",
+            url: "/libro/" + id,
+            dataType: "json",
+            data: data,
+            cache: false,
+            processData: false,
+            success: function (jsonData) {
+                if (jsonData.status == "OK") {
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: jsonData.message,
+                        showConfirmButton: false,
+                        timer: 1500,
+                    }).then((result) => {
+                        tableLibro.ajax.reload();
+                    });
+                } else {
+                    console.log("========'Exception Response'=========");
+                    console.log(jsonData.exception);
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: jsonData.message,
+                    });
+                }
+            },
+            error: function (xhr, status) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "A ocurrido un error, por favor inténtelo de nuevo!!",
+                });
+            },
+            complete: function (xhr, status) {
+                //alert('Petición realizada');
+            },
+        });
+    });
+});
