@@ -146,9 +146,17 @@
                     <a href="{!! url('dashboard') !!}">
                         <i class="fas fa-tachometer-alt"></i>Dashboard</a>
                 </li>
-                <li>
-                    <a href="{!! url('usuario') !!}">
-                        <i class="fas fa-chart-bar"></i>Usuarios</a>
+                <li class="has-sub">
+                    <a class="js-arrow" href="#">
+                        <i class="fas fa-user"></i>Usuarios & Roles</a>
+                    <ul class="list-unstyled navbar__sub-list js-sub-list">
+                        <li>
+                            <a href="{!! url('usuario') !!}">Usuarios</a>
+                        </li>
+                        <li>
+                            <a href="{!! url('rol') !!}">Roles</a>
+                        </li>
+                    </ul>
                 </li>
                 <li class="active has-sub">
                     <a class="js-arrow" href="#">

@@ -30,6 +30,7 @@ class UserController extends Controller
                 array_push($row, $user->nombre . " " . $user->apellido);
                 array_push($row, "");
                 array_push($row, $user->email);
+                array_push($row, $user->estado == 1 ? "Activo" : "Inactivo");
                 array_push($row, $buttons);
 
                 array_push($data, $row);
@@ -38,7 +39,7 @@ class UserController extends Controller
             $data = array();
         }
 
-        return response()->json(['status' => 'OK', 'timestamp' => Carbon::now(), "message" => "Usuario registrado correctamente!!", "data" => $data, "exception" => null]);
+        return response()->json(['status' => 'OK', 'timestamp' => Carbon::now(), "message" => "Usuarios consultados correctamente!!", "data" => $data, "exception" => null]);
     }
 
     public function store(Request $request)
@@ -51,6 +52,7 @@ class UserController extends Controller
             }
             $user->nombre = $request->nombre;
             $user->apellido = $request->apellido;
+            $user->estado = $request->estado == "on" ? true : false;
             if ($request->metodo != "Crear") {
                 if ($request->password != null) {
 
@@ -72,9 +74,9 @@ class UserController extends Controller
 
                 $user->password = Hash::make($request->password);
             }
-            
+
             $user->email = $request->email;
-            
+
             $user->save();
         } catch (Exception $ex) {
             return response()->json(['status' => 'NOK', 'timestamp' => Carbon::now(), "message" => "Error al registrar el usuario!!", "data" => $user, "exception" => $ex]);

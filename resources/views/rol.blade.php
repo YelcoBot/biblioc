@@ -7,11 +7,11 @@
                     <div class="row">
                         <div class="col-9">
                             <h3 class="title-3 m-b-30">
-                                <i class="zmdi zmdi-account-calendar"></i>Usuarios
+                                <i class="zmdi zmdi-account-calendar"></i>Roles
                             </h3>
                         </div>
                         <div class="col-3">
-                            <button id="BtnNewUser" type="button" class="btn btn-primary"><i class="fa fa-plus"></i>&nbsp;&nbsp;Nuevo Usuario</button>
+                            <button id="BtnNewRol" type="button" class="btn btn-primary"><i class="fa fa-plus"></i>&nbsp;&nbsp;Nuevo Rol</button>
                         </div>
                     </div>
                 </div>
@@ -20,20 +20,16 @@
                         <div class="col-lg-12">
                             <!-- DATA TABLE-->
                             <div class="table-responsive m-b-40">
-                                <table id="TableUser" class="table table-borderless table-data3" style="width: 100%">
+                                <table id="TableRol" class="table table-borderless table-data3" style="width: 100%">
                                     <thead>
                                         <tr>
                                             <th>Nombre</th>
-                                            <th>Rol</th>
-                                            <th>Email</th>                                            
                                             <th>Estado</th>
                                             <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td></td>
-                                            <td></td>
                                             <td></td>
                                             <td></td>
                                             <td></td>

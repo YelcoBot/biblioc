@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\RolController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -27,6 +28,12 @@ Route::post('/signin', [AuthController::class, 'signin']);
 Route::post('/authenticate', [AuthController::class, 'authenticate']);
 
 Route::get('/dashboard', [HomeController::class, 'dashboard'])->middleware('auth');
+
+Route::get('/roles', [RolController::class, 'list'])->middleware('auth');
+Route::get('/rol', [RolController::class, 'index'])->middleware('auth');
+Route::get('/rol/{id}', [RolController::class, 'show'])->middleware('auth');
+Route::delete('/rol/{id}', [RolController::class, 'destroy'])->middleware('auth');
+Route::post('/rol', [RolController::class, 'store'])->middleware('auth');
 
 Route::get('/usuarios', [UserController::class, 'list'])->middleware('auth');
 Route::get('/usuario', [UserController::class, 'index'])->middleware('auth');

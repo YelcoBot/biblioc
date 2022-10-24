@@ -40,6 +40,11 @@
                                     <input class="au-input au-input--full" type="password" name="password"
                                         placeholder="Contrase&ntilde;a">
                                 </div>
+                                <div class="form-group">
+                                    <label>Confirmar Contrase&ntilde;a</label>
+                                    <input class="au-input au-input--full" type="password" name="confpassword"
+                                        placeholder="Contrase&ntilde;a">
+                                </div>
                                 <div class="login-checkbox">
                                     <label>
                                         <input type="checkbox" name="aggree">Acepta los términos y políticas

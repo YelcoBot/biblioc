@@ -43,7 +43,8 @@ class AuthController extends Controller
             $user = new User();
             $user->nombre = $request->nombre;
             $user->apellido = $request->apellido;
-            
+            $user->estado = true;
+
             $userexist = User::where('email', $request->email)->first();
             if ($userexist != null) {
                 return response()->json(['status' => 'NOK', 'timestamp' => Carbon::now(), "message" => "El correo '" . $request->email . "' ya existe!!", "data" => $user, "exception" => null]);
@@ -62,5 +63,5 @@ class AuthController extends Controller
         }
 
         return response()->json(['status' => 'OK', 'timestamp' => Carbon::now(), "message" => "Usuario registrado correctamente!!", "data" => $user, "exception" => null]);
-    }    
+    }
 }
