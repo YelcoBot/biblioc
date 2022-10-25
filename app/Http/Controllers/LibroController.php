@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Libro;
+use App\Models\LibroAutor;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
@@ -25,12 +26,18 @@ class LibroController extends Controller
             foreach ($libros as $libro) {
                 $row = array();
 
+                $buttonarchivo = "";
+
+                if ($libro->archivo != null) {
+                    $buttonarchivo = "<button titulo = '" . $libro->titulo  . "' urlarchivo = '" . asset("uploads/" . $libro->archivo)  . "' type='button' class='btn btn-success btn-view'><i class='fa fa-magic'></i>&nbsp;&nbsp;Visualizar</button>&nbsp;&nbsp;";
+                }
+
                 $buttons = "<button idlibro = '" . $libro->id . "' type='button' class='btn btn-primary btn-edit'><i class='fa fa-magic'></i>&nbsp;&nbsp;Editar</button>&nbsp;&nbsp;<button idlibro = '" . $libro->id . " type='button' class='btn btn-danger btn-delete'><i class='fa fa-trash'></i>&nbsp;&nbsp;Eliminar</button>";
 
                 array_push($row, $libro->titulo);
-                array_push($row, "");
-                array_push($row, $libro->fecha_edicion);
-                array_push($row, $buttons);
+                array_push($row, Carbon::parse($libro->fecha_edicion)->format('m/d/Y'));
+                array_push($row, $libro->editorial->nombre);
+                array_push($row, $buttonarchivo . $buttons);
 
                 array_push($data, $row);
             }
@@ -55,7 +62,24 @@ class LibroController extends Controller
             $libro->id_editorial = $request->id_editorial;
             $libro->id_categoria = $request->id_categoria;
 
+            $file = $request->file('archivo');
+            if ($file != null) {
+                $libro->archivo = $file->getClientOriginalName();
+                $file->move("uploads", $file->getClientOriginalName());
+            }
+
             $libro->save();
+
+            LibroAutor::where('id_libro', $libro->id)->delete();
+
+            if ($request->autores != null) {
+                foreach ($request->autores as $idautor) {
+                    $libroautor = new LibroAutor();
+                    $libroautor->id_libro = $libro->id;
+                    $libroautor->id_autor = $idautor;
+                    $libroautor->save();
+                }
+            }
         } catch (Exception $ex) {
             return response()->json(['status' => 'NOK', 'timestamp' => Carbon::now(), "message" => "Error al registrar el libro!!", "data" => $libro, "exception" => $ex]);
         }
@@ -71,6 +95,7 @@ class LibroController extends Controller
             if ($libro == null) {
                 return response()->json(['status' => 'NOK', 'timestamp' => Carbon::now(), "message" => "Libro inexistente!!", "data" => null, "exception" => null]);
             }
+            $libro->autores = $libro->autores;
         } catch (Exception $ex) {
             return response()->json(['status' => 'NOK', 'timestamp' => Carbon::now(), "message" => "Error al consultar el libro!!", "data" => $libro, "exception" => $ex]);
         }

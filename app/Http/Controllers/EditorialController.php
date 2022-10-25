@@ -17,6 +17,7 @@ class EditorialController extends Controller
     public function list()
     {
         $data = array();
+        $results = array();
 
         try {
             $editoriales = Editorial::all();
@@ -28,14 +29,22 @@ class EditorialController extends Controller
 
                 array_push($row, $editorial->nombre);
                 array_push($row, $buttons);
-
+                
                 array_push($data, $row);
+                
+                $option = (object) [
+                    'id' => $editorial->id,
+                    'text' => $editorial->nombre,
+                ];
+
+                array_push($results, $option);
             }
         } catch (Exception $ex) {
             $data = array();
+            $results = array();
         }
 
-        return response()->json(['status' => 'OK', 'timestamp' => Carbon::now(), "message" => "Editoriales consultadas correctamente!!", "data" => $data, "exception" => null]);
+        return response()->json(['status' => 'OK', 'timestamp' => Carbon::now(), "message" => "Editoriales consultadas correctamente!!", "data" => $data, "results" => $results,  "exception" => null]);
     }
 
     public function store(Request $request)
@@ -46,6 +55,7 @@ class EditorialController extends Controller
                 $id  = $request->id;
                 $editorial = Editorial::find($id);
             }
+            
             $editorial->nombre = $request->nombre;
 
             $editorial->save();

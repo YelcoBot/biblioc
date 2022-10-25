@@ -172,7 +172,8 @@
 <div class="modal fade" id="ModalLibro" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <form id="FormLibro" action="" method="post" onsubmit="return false;">
+            <form id="FormLibro" action="" method="post" onsubmit="return false;"
+                enctype="multipart/form-data">
                 @csrf
                 <input name="metodo" type="hidden" />
                 <input name="id" type="hidden" />
@@ -196,6 +197,11 @@
                         <input class="au-input au-input--full" type="date" name="fecha_edicion">
                     </div>
                     <div class="form-group">
+                        <label>Autores</label>
+                        <select name="autores[]" class="form-control" multiple="multiple">
+                        </select>
+                    </div>
+                    <div class="form-group">
                         <label>Editorial</label>
                         <select name="id_editorial" class="form-control">
                             <option value="">Seleccione...</option>
@@ -209,7 +215,7 @@
                     </div>
                     <div class="form-group">
                         <label>Archivo</label>
-                        <input class="au-input au-input--full" type="file" name="file" accept=".pdf">
+                        <input type="file" name="archivo" accept=".pdf">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -217,6 +223,31 @@
                     <button type="submit" class="btn btn-primary">Guardar</button>
                 </div>
             </form>
+        </div>
+    </div>
+</div>
+<!-- LIBRO VIEW -->
+<div class="modal fade" id="ModalViewLibro" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Información del libro</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <style>
+                    #the-canvas {
+                        border: 1px solid black;
+                        direction: ltr;
+                    }
+                </style>
+                <canvas id="view-pdf-canvas"></canvas>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
         </div>
     </div>
 </div>

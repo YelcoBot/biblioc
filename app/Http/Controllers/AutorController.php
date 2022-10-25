@@ -17,25 +17,34 @@ class AutorController extends Controller
     public function list()
     {
         $data = array();
+        $results = array();
 
         try {
             $autores = Autor::all();
 
             foreach ($autores as $autor) {
                 $row = array();
-
+                
                 $buttons = "<button idautor = '" . $autor->id . "' type='button' class='btn btn-primary btn-edit'><i class='fa fa-magic'></i>&nbsp;&nbsp;Editar</button>&nbsp;&nbsp;<button idautor = '" . $autor->id . " type='button' class='btn btn-danger btn-delete'><i class='fa fa-trash'></i>&nbsp;&nbsp;Eliminar</button>";
 
                 array_push($row, $autor->nombre);
                 array_push($row, $buttons);
 
                 array_push($data, $row);
+
+                $option = (object) [
+                    'id' => $autor->id,
+                    'text' => $autor->nombre,
+                ];
+
+                array_push($results, $option);
             }
         } catch (Exception $ex) {
             $data = array();
+            $results = array();
         }
 
-        return response()->json(['status' => 'OK', 'timestamp' => Carbon::now(), "message" => "Autores consultados correctamente!!", "data" => $data, "exception" => null]);
+        return response()->json(['status' => 'OK', 'timestamp' => Carbon::now(), "message" => "Autores consultados correctamente!!", "data" => $data, "results" => $results, "exception" => null]);
     }
 
     public function store(Request $request)
@@ -86,4 +95,3 @@ class AutorController extends Controller
         return response()->json(['status' => 'OK', 'timestamp' => Carbon::now(), "message" => "Autor eliminado correctamente!!", "data" => $autor, "exception" => null]);
     }
 }
-

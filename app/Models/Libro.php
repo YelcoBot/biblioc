@@ -15,7 +15,25 @@ class Libro extends Model
         'titulo',
         'n_pag',
         'fecha_edicion',
+        'archivo',
         'id_editorial',
-        'id_categoria',
+        'id_categoria',        
     ];
+
+    public function editorial()
+    {
+        return $this->belongsTo(Editorial::class, 'id_editorial');
+    }
+
+    public function categoria()
+    {
+        return $this->belongsTo(Categoria::class, 'id_categoria');
+    }
+
+    public function autores()
+    {
+        return $this->hasMany(LibroAutor::class, 'id_libro');
+    }
+
+    
 }

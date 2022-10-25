@@ -16,6 +16,7 @@ php artisan make:model Autor
 php artisan make:model Editorial
 php artisan make:model Categoria
 php artisan make:model Libro
+php artisan make:model LibroAutor
 
 
 php artisan cache:clear

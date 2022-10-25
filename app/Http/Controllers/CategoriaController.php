@@ -17,6 +17,7 @@ class CategoriaController extends Controller
     public function list()
     {
         $data = array();
+        $results = array();
 
         try {
             $categorias = Categoria::all();
@@ -30,12 +31,20 @@ class CategoriaController extends Controller
                 array_push($row, $buttons);
 
                 array_push($data, $row);
+
+                $option = (object) [
+                    'id' => $categoria->id,
+                    'text' => $categoria->nombre,
+                ];
+
+                array_push($results, $option);
             }
         } catch (Exception $ex) {
             $data = array();
+            $results = array();
         }
 
-        return response()->json(['status' => 'OK', 'timestamp' => Carbon::now(), "message" => "Categorias consultadas correctamente!!", "data" => $data, "exception" => null]);
+        return response()->json(['status' => 'OK', 'timestamp' => Carbon::now(), "message" => "Categorias consultadas correctamente!!", "data" => $data, "results" => $results, "exception" => null]);
     }
 
     public function store(Request $request)
