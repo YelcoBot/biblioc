@@ -9,6 +9,7 @@ php artisan make:controller AutorController --resource
 php artisan make:controller EditorialController --resource
 php artisan make:controller CategoriaController --resource
 php artisan make:controller LibroController --resource
+php artisan make:controller PrestamoController --resource
 
 
 php artisan make:model Rol
@@ -17,6 +18,7 @@ php artisan make:model Editorial
 php artisan make:model Categoria
 php artisan make:model Libro
 php artisan make:model LibroAutor
+php artisan make:model Prestamo
 
 
 php artisan cache:clear
@@ -26,6 +28,9 @@ php artisan cache:clear
 php artisan route:cache
 php artisan view:clear
 composer dumpautoload
+
+
+/ este es el comando
 php artisan serve
 
 398334929
