@@ -10,6 +10,7 @@
 <script src="{!! asset('vendor/wow/wow.min.js') !!}"></script>
 <script src="{!! asset('vendor/animsition/animsition.min.js') !!}"></script>
 <script src="{!! asset('vendor/bootstrap-progressbar/bootstrap-progressbar.min.js') !!}"></script>
+<script src="{!! asset('vendor/bootstrap-toggle/js/bootstrap4-toggle.min.js') !!}"></script>
 <script src="{!! asset('vendor/counter-up/jquery.waypoints.min.js') !!}"></script>
 <script src="{!! asset('vendor/counter-up/jquery.counterup.min.js') !!}"></script>
 <script src="{!! asset('vendor/circle-progress/circle-progress.min.js') !!}"></script>

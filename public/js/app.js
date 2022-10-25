@@ -164,6 +164,7 @@ $(document).ready(function () {
         $("#FormRol")[0].reset();
         $("#FormRol [name='metodo']").val("Crear");
         $("#FormRol [name='id']").val("");
+        $("#FormUser [name='estado']").bootstrapToggle("off");
         $("#ModalRol").modal({
             keyboard: false,
             backdrop: "static",
@@ -173,6 +174,7 @@ $(document).ready(function () {
         $("#FormRol")[0].reset();
         $("#FormRol [name='metodo']").val("Editar");
         $("#FormRol [name='id']").val("");
+        $("#FormUser [name='estado']").bootstrapToggle("off");
 
         var id = $(this).attr("idrol");
         $.ajax({
@@ -186,13 +188,17 @@ $(document).ready(function () {
                     for (const [key, value] of Object.entries(jsonData.data)) {
                         if (key == "estado") {
                             if (value == "1") {
-                                $(`#FormRol [name="${key}"]`).prop(
-                                    "checked",
-                                    true
+                                $(`#FormRol [name="${key}"]`)
+                                    .prop("checked", true)
+                                    .trigger("change");
+                                $("#FormUser [name='estado']").bootstrapToggle(
+                                    "on"
                                 );
                             }
                         } else {
-                            $(`#FormRol [name="${key}"]`).val(value);
+                            $(`#FormRol [name="${key}"]`)
+                                .val(value)
+                                .trigger("change");
                         }
                     }
 
@@ -368,6 +374,7 @@ $(document).ready(function () {
         $("#FormUser")[0].reset();
         $("#FormUser [name='metodo']").val("Crear");
         $("#FormUser [name='id']").val("");
+        $("#FormUser [name='estado']").bootstrapToggle("off");
         $("#ModalUser").modal({
             keyboard: false,
             backdrop: "static",
@@ -377,6 +384,7 @@ $(document).ready(function () {
         $("#FormUser")[0].reset();
         $("#FormUser [name='metodo']").val("Editar");
         $("#FormUser [name='id']").val("");
+        $("#FormUser [name='estado']").bootstrapToggle("off");
 
         var id = $(this).attr("iduser");
         $.ajax({
@@ -390,13 +398,17 @@ $(document).ready(function () {
                     for (const [key, value] of Object.entries(jsonData.data)) {
                         if (key == "estado") {
                             if (value == "1") {
-                                $(`#FormUser [name="${key}"]`).prop(
-                                    "checked",
-                                    true
+                                $(`#FormUser [name="${key}"]`)
+                                    .prop("checked", true)
+                                    .trigger("change");
+                                $("#FormUser [name='estado']").bootstrapToggle(
+                                    "on"
                                 );
                             }
                         } else {
-                            $(`#FormUser [name="${key}"]`).val(value);
+                            $(`#FormUser [name="${key}"]`)
+                                .val(value)
+                                .trigger("change");
                         }
                     }
 
@@ -594,13 +606,14 @@ $(document).ready(function () {
                     for (const [key, value] of Object.entries(jsonData.data)) {
                         if (key == "estado") {
                             if (value == "1") {
-                                $(`#FormAutor [name="${key}"]`).prop(
-                                    "checked",
-                                    true
-                                );
+                                $(`#FormAutor [name="${key}"]`)
+                                    .prop("checked", true)
+                                    .trigger("change");
                             }
                         } else {
-                            $(`#FormAutor [name="${key}"]`).val(value);
+                            $(`#FormAutor [name="${key}"]`)
+                                .val(value)
+                                .trigger("change");
                         }
                     }
 
@@ -798,13 +811,14 @@ $(document).ready(function () {
                     for (const [key, value] of Object.entries(jsonData.data)) {
                         if (key == "estado") {
                             if (value == "1") {
-                                $(`#FormCategoria [name="${key}"]`).prop(
-                                    "checked",
-                                    true
-                                );
+                                $(`#FormCategoria [name="${key}"]`)
+                                    .prop("checked", true)
+                                    .trigger("change");
                             }
                         } else {
-                            $(`#FormCategoria [name="${key}"]`).val(value);
+                            $(`#FormCategoria [name="${key}"]`)
+                                .val(value)
+                                .trigger("change");
                         }
                     }
 
@@ -1002,13 +1016,14 @@ $(document).ready(function () {
                     for (const [key, value] of Object.entries(jsonData.data)) {
                         if (key == "estado") {
                             if (value == "1") {
-                                $(`#FormEditorial [name="${key}"]`).prop(
-                                    "checked",
-                                    true
-                                );
+                                $(`#FormEditorial [name="${key}"]`)
+                                    .prop("checked", true)
+                                    .trigger("change");
                             }
                         } else {
-                            $(`#FormEditorial [name="${key}"]`).val(value);
+                            $(`#FormEditorial [name="${key}"]`)
+                                .val(value)
+                                .trigger("change");
                         }
                     }
 
@@ -1325,6 +1340,18 @@ $(document).ready(function () {
         window.open("/libro/viewer/" + id, "_blank");
     });
 
+    $.ajax({
+        method: "GET",
+        url: "/roles",
+        dataType: "json",
+        cache: false,
+        processData: false,
+        success: function (jsonData) {
+            $("#FormUser [name='id_rol']").select2({
+                data: jsonData.results,
+            });
+        },
+    });
     $.ajax({
         method: "GET",
         url: "/autores",

@@ -30,8 +30,17 @@
                         <input class="au-input au-input--full" type="email" name="email" placeholder="Email">
                     </div>
                     <div class="form-group">
+                        <label>Rol</label>
+                        <select name="id_rol" class="form-control">
+                            <option value="">Seleccione...</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
                         <label>Estado</label>
-                        <input class="au-input au-input--full" type="checkbox" name="estado">
+                        <div class="toggle">
+                            <input name="estado"type="checkbox" data-toggle="toggle" data-on="Activo"
+                                data-off="Inactivo">
+                        </div>
                     </div>
                     <div class="form-group">
                         <label>Contrase&ntilde;a</label>
@@ -73,7 +82,10 @@
                     </div>
                     <div class="form-group">
                         <label>Estado</label>
-                        <input class="au-input au-input--full" type="checkbox" name="estado">
+                        <div class="toggle">
+                            <input name="estado"type="checkbox" data-toggle="toggle" data-on="Activo"
+                                data-off="Inactivo">
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">

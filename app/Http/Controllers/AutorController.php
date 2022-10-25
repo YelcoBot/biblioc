@@ -62,7 +62,7 @@ class AutorController extends Controller
             return response()->json(['status' => 'NOK', 'timestamp' => Carbon::now(), "message" => "Error al registrar el autor!!", "data" => $autor, "exception" => $ex]);
         }
 
-        return response()->json(['status' => 'OK', 'timestamp' => Carbon::now(), "message" => "Autor registrado correctamente!!", "data" => $autor, "exception" => null]);
+        return response()->json(['status' => 'OK', 'timestamp' => Carbon::now(), "message" => "Autor guardado correctamente!!", "data" => $autor, "exception" => null]);
     }
 
     public function show($id)

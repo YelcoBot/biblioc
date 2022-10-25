@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Rol;
 use App\Models\User;
 use Carbon\Carbon;
 use Exception;
@@ -16,13 +17,22 @@ class AuthController extends Controller
         if (Auth::check()) {
             return view('dashboard');
         }
-        
+
         return view('login');
     }
 
     public function register()
     {
         return view('register');
+    }
+
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect('/');
     }
 
     public function authenticate(Request $request)
@@ -33,6 +43,10 @@ class AuthController extends Controller
 
             if (!Auth::attempt($credentials, $remember)) {
                 return response()->json(['status' => 'NOK', 'timestamp' => Carbon::now(), "message" => "Usuario o contraseña incorrecto!!", "data" => null, "exception" => null]);
+            }
+
+            if (!(Auth::user()->estado == 1 && Auth::user()->rol->estado == 1)) {
+                return response()->json(['status' => 'NOK', 'timestamp' => Carbon::now(), "message" => "Usuario inactivo!!", "data" => null, "exception" => null]);
             }
         } catch (Exception $ex) {
             return response()->json(['status' => 'NOK', 'timestamp' => Carbon::now(), "message" => "Error al iniciar sesión!!", "data" => null, "exception" => $ex]);
@@ -58,6 +72,8 @@ class AuthController extends Controller
                 return response()->json(['status' => 'NOK', 'timestamp' => Carbon::now(), "message" => "La contraseña no coincide!!", "data" => $user, "exception" => null]);
             }
 
+            $roldefault = Rol::where('defecto', 1)->first();
+            $user->id_rol = $roldefault->id;
 
             $user->email = $request->email;
             $user->password = Hash::make($request->password);

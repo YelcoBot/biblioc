@@ -19,6 +19,8 @@ class User extends Authenticatable
         'apellido',
         'email',
         'password',
+        'estado',
+        'id_rol',
     ];
 
     protected $hidden = [
@@ -29,4 +31,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function rol()
+    {
+        return $this->belongsTo(Rol::class, 'id_rol');
+    }
 }

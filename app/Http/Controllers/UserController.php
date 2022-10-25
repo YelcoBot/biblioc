@@ -28,7 +28,7 @@ class UserController extends Controller
                 $buttons = "<button iduser = '" . $user->id . "' type='button' class='btn btn-primary btn-edit'><i class='fa fa-magic'></i>&nbsp;&nbsp;Editar</button>&nbsp;&nbsp;<button iduser = '" . $user->id . " type='button' class='btn btn-danger btn-delete'><i class='fa fa-trash'></i>&nbsp;&nbsp;Eliminar</button>";
 
                 array_push($row, $user->nombre . " " . $user->apellido);
-                array_push($row, "");
+                array_push($row, $user->rol->nombre);
                 array_push($row, $user->email);
                 array_push($row, $user->estado == 1 ? "Activo" : "Inactivo");
                 array_push($row, $buttons);
@@ -75,6 +75,7 @@ class UserController extends Controller
                 $user->password = Hash::make($request->password);
             }
 
+            $user->id_rol = $request->id_rol;
             $user->email = $request->email;
 
             $user->save();
@@ -82,7 +83,7 @@ class UserController extends Controller
             return response()->json(['status' => 'NOK', 'timestamp' => Carbon::now(), "message" => "Error al registrar el usuario!!", "data" => $user, "exception" => $ex]);
         }
 
-        return response()->json(['status' => 'OK', 'timestamp' => Carbon::now(), "message" => "Usuario registrado correctamente!!", "data" => $user, "exception" => null]);
+        return response()->json(['status' => 'OK', 'timestamp' => Carbon::now(), "message" => "Usuario guardado correctamente!!", "data" => $user, "exception" => null]);
     }
 
     public function show($id)

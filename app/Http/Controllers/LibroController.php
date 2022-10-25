@@ -84,7 +84,7 @@ class LibroController extends Controller
             return response()->json(['status' => 'NOK', 'timestamp' => Carbon::now(), "message" => "Error al registrar el libro!!", "data" => $libro, "exception" => $ex]);
         }
 
-        return response()->json(['status' => 'OK', 'timestamp' => Carbon::now(), "message" => "Libro registrado correctamente!!", "data" => $libro, "exception" => null]);
+        return response()->json(['status' => 'OK', 'timestamp' => Carbon::now(), "message" => "Libro guardado correctamente!!", "data" => $libro, "exception" => null]);
     }
 
     public function show($id)

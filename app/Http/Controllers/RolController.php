@@ -16,7 +16,8 @@ class RolController extends Controller
 
     public function list()
     {
-        $data = array();
+        $data = array();        
+        $results = array();
 
         try {
             $roles = Rol::all();
@@ -31,12 +32,20 @@ class RolController extends Controller
                 array_push($row, $buttons);
 
                 array_push($data, $row);
+
+                $option = (object) [
+                    'id' => $rol->id,
+                    'text' => $rol->nombre,
+                ];
+
+                array_push($results, $option);
             }
         } catch (Exception $ex) {
             $data = array();
+            $results = array();
         }
 
-        return response()->json(['status' => 'OK', 'timestamp' => Carbon::now(), "message" => "Roles consultados correctamente!!", "data" => $data, "exception" => null]);
+        return response()->json(['status' => 'OK', 'timestamp' => Carbon::now(), "message" => "Roles consultados correctamente!!", "data" => $data,"results" => $results, "exception" => null]);
     }
 
     public function store(Request $request)
@@ -55,7 +64,7 @@ class RolController extends Controller
             return response()->json(['status' => 'NOK', 'timestamp' => Carbon::now(), "message" => "Error al registrar el rol!!", "data" => $rol, "exception" => $ex]);
         }
 
-        return response()->json(['status' => 'OK', 'timestamp' => Carbon::now(), "message" => "Rol registrado correctamente!!", "data" => $rol, "exception" => null]);
+        return response()->json(['status' => 'OK', 'timestamp' => Carbon::now(), "message" => "Rol guardado correctamente!!", "data" => $rol, "exception" => null]);
     }
 
     public function show($id)
