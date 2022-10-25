@@ -26,7 +26,7 @@ use Illuminate\Support\Facades\Route;
 });*/
 
 Route::get('/', [AuthController::class, 'login']);
-Route::get('/login', [AuthController::class, 'login']);
+Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::get('/register', [AuthController::class, 'register']);
 Route::post('/signin', [AuthController::class, 'signin']);
 Route::post('/authenticate', [AuthController::class, 'authenticate']);
@@ -68,7 +68,7 @@ Route::get('/libro', [LibroController::class, 'index'])->middleware('auth');
 Route::get('/libro/{id}', [LibroController::class, 'show'])->middleware('auth');
 Route::delete('/libro/{id}', [LibroController::class, 'destroy'])->middleware('auth');
 Route::post('/libro', [LibroController::class, 'store'])->middleware('auth');
+Route::get('/libro/viewer/{id}', [LibroController::class, 'viewer'])->middleware('auth');
 
 
 
-//Route::get('/user/{id}', [UserController::class, 'show']);

@@ -1321,14 +1321,8 @@ $(document).ready(function () {
         });
     });
     $("#TableLibro").on("click", ".btn-view", function () {
-        var urlarchivo = $(this).attr("idlibro");
-        var titulo = $(this).attr("titulo");
-        $("#ModalViewLibro .modal-title").html(titulo);
-        //ViewPdf(urlarchivo);
-        $("#ModalViewLibro").modal({
-            keyboard: false,
-            backdrop: "static",
-        });
+        var id = $(this).attr("idlibro");
+        window.open("/libro/viewer/" + id, "_blank");
     });
 
     $.ajax({

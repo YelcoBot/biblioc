@@ -29,7 +29,7 @@ class LibroController extends Controller
                 $buttonarchivo = "";
 
                 if ($libro->archivo != null) {
-                    $buttonarchivo = "<button titulo = '" . $libro->titulo  . "' urlarchivo = '" . asset("uploads/" . $libro->archivo)  . "' type='button' class='btn btn-success btn-view'><i class='fa fa-magic'></i>&nbsp;&nbsp;Visualizar</button>&nbsp;&nbsp;";
+                    $buttonarchivo = "<button idlibro = '" . $libro->id . "' type='button' class='btn btn-success btn-view'><i class='fa fa-magic'></i>&nbsp;&nbsp;Visualizar</button>&nbsp;&nbsp;";
                 }
 
                 $buttons = "<button idlibro = '" . $libro->id . "' type='button' class='btn btn-primary btn-edit'><i class='fa fa-magic'></i>&nbsp;&nbsp;Editar</button>&nbsp;&nbsp;<button idlibro = '" . $libro->id . " type='button' class='btn btn-danger btn-delete'><i class='fa fa-trash'></i>&nbsp;&nbsp;Eliminar</button>";
@@ -116,5 +116,16 @@ class LibroController extends Controller
             return response()->json(['status' => 'NOK', 'timestamp' => Carbon::now(), "message" => "Error al eliminar el libro!!", "data" => $libro, "exception" => $ex]);
         }
         return response()->json(['status' => 'OK', 'timestamp' => Carbon::now(), "message" => "Libro eliminado correctamente!!", "data" => $libro, "exception" => null]);
+    }
+
+    public function viewer($id)
+    {
+        $libro = new Libro();
+        try {
+            $libro = Libro::find($id);
+            $libro->urlarchivo = asset("uploads/" . $libro->archivo);
+        } catch (Exception $ex) {
+        }
+        return view('viewer', ['libro' => $libro]);
     }
 }
