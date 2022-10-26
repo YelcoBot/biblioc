@@ -6,6 +6,7 @@ use App\Http\Controllers\AutorController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\EditorialController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PrestamoController;
 use App\Http\Controllers\RolController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -55,6 +56,12 @@ Route::get('/libro/{id}', [LibroController::class, 'show'])->middleware('auth');
 Route::delete('/libro/{id}', [LibroController::class, 'destroy'])->middleware('auth');
 Route::post('/libro', [LibroController::class, 'store'])->middleware('auth');
 Route::get('/libro/viewer/{id}', [LibroController::class, 'viewer'])->middleware('auth');
+
+Route::get('/prestamos', [PrestamoController::class, 'list'])->middleware('auth');
+Route::get('/prestamo', [PrestamoController::class, 'index'])->middleware('auth');
+Route::get('/prestamo/{id}', [PrestamoController::class, 'show'])->middleware('auth');
+Route::delete('/prestamo/{id}', [PrestamoController::class, 'destroy'])->middleware('auth');
+Route::post('/prestamo', [PrestamoController::class, 'store'])->middleware('auth');
 
 
 

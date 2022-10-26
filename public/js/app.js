@@ -1223,13 +1223,7 @@ $(document).ready(function () {
             success: function (jsonData) {
                 if (jsonData.status == "OK") {
                     for (const [key, value] of Object.entries(jsonData.data)) {
-                        if (key == "estado") {
-                            if (value == "1") {
-                                $(`#FormLibro [name="${key}"]`)
-                                    .prop("checked", true)
-                                    .trigger("change");
-                            }
-                        } else if (key == "archivo") {
+                        if (key == "archivo") {
                         } else if (key == "autores") {
                             var autores = value.map((autr) => autr.id_autor);
                             $(`#FormLibro [name="${key}[]"]`)
@@ -1340,6 +1334,221 @@ $(document).ready(function () {
         window.open("/libro/viewer/" + id, "_blank");
     });
 
+    //Prestamo
+    var tablePrestamo = $("#TablePrestamo").DataTable({
+        ajax: "/prestamos",
+        language: {
+            processing: "Procesando...",
+            lengthMenu: "Mostrar _MENU_ registros",
+            zeroRecords: "No se encontraron resultados",
+            emptyTable: "Ningún dato disponible en esta tabla",
+            infoEmpty:
+                "Mostrando registros del 0 al 0 de un total de 0 registros",
+            infoFiltered: "(filtrado de un total de _MAX_ registros)",
+            search: "Buscar:",
+            infoThousands: ",",
+            loadingRecords: "Cargando...",
+            paginate: {
+                first: "Primero",
+                last: "Último",
+                next: "Siguiente",
+                previous: "Anterior",
+            },
+            aria: {
+                sortAscending:
+                    ": Activar para ordenar la columna de manera ascendente",
+                sortDescending:
+                    ": Activar para ordenar la columna de manera descendente",
+            },
+            decimal: ",",
+            thousands: ".",
+            info: "Mostrando _START_ a _END_ de _TOTAL_ registros",
+        },
+    });
+    $("#FormPrestar , #FormDevolver").on("submit", function () {
+        var data = $(this).serialize();
+        console.log(data);
+        $.ajax({
+            method: "POST",
+            url: "/prestamo",
+            dataType: "json",
+            data: data,
+            cache: false,
+            processData: false,
+            success: function (jsonData) {
+                if (jsonData.status == "OK") {
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: jsonData.message,
+                        showConfirmButton: false,
+                        timer: 1500,
+                    }).then((result) => {
+                        tablePrestamo.ajax.reload();
+                        $("#ModalPrestar").modal("hide");
+                        $("#ModalDevolver").modal("hide");
+                    });
+                } else {
+                    console.log("========'Exception Response'=========");
+                    console.log(jsonData.exception);
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: jsonData.message,
+                    });
+                }
+            },
+            error: function (xhr, status) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "A ocurrido un error, por favor inténtelo de nuevo!!",
+                });
+            },
+            complete: function (xhr, status) {
+                //alert('Petición realizada');
+            },
+        });
+    });
+    $("#BtnNewPrestamo").on("click", function () {
+        $("#FormPrestar")[0].reset();
+        $("#FormPrestar [name='metodo']").val("Crear");
+        $("#FormPrestar [name='id']").val("");
+        $("#FormPrestar select").val(null).trigger("change");
+        $("#FormPrestar [name='estado_pres']").bootstrapToggle("off");
+        $("#ModalPrestar").modal({
+            keyboard: false,
+            backdrop: "static",
+        });
+    });
+    $("#TablePrestamo").on("click", ".btn-edit", function () {
+        $("#FormDevolver")[0].reset();
+        $("#FormDevolver [name='metodo']").val("Editar");
+        $("#FormDevolver [name='id']").val("");
+        $("#FormDevolver select").val(null).trigger("change");
+        $("#FormDevolver [name='estado_dev']").bootstrapToggle("off");
+
+        var id = $(this).attr("idprestamo");
+        $.ajax({
+            method: "GET",
+            url: "/prestamo/" + id,
+            dataType: "json",
+            cache: false,
+            processData: false,
+            success: function (jsonData) {
+                if (jsonData.status == "OK") {
+                    for (const [key, value] of Object.entries(jsonData.data)) {
+                        if (key == "estado_dev") {
+                            if (value == "1") {
+                                $(`#FormDevolver [name="${key}"]`)
+                                    .prop("checked", true)
+                                    .trigger("change");
+                                $("#FormDevolver [name='estado_dev']").bootstrapToggle(
+                                    "on"
+                                );
+                            }
+                        } else {
+                            $(`#FormDevolver [name="${key}"]`)
+                                .val(value)
+                                .trigger("change");
+                        }
+                    }
+
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: jsonData.message,
+                        showConfirmButton: false,
+                        timer: 1500,
+                    }).then((result) => {
+                        $("#ModalDevolver").modal({
+                            keyboard: false,
+                            backdrop: "static",
+                        });
+                    });
+                } else {
+                    console.log("========'Exception Response'=========");
+                    console.log(jsonData.exception);
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: jsonData.message,
+                    });
+                }
+            },
+            error: function (xhr, status) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "A ocurrido un error, por favor inténtelo de nuevo!!",
+                });
+            },
+            complete: function (xhr, status) {
+                //alert('Petición realizada');
+            },
+        });
+    });
+    $("#TablePrestamo").on("click", ".btn-delete", function () {
+        var id = $(this).attr("idprestamo");
+
+        Swal.fire({
+            icon: "warning",
+            title: "¿Estas segur@?",
+            text: "¡No podrás revertir esto!",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            cancelButtonText: "Cancelar",
+            confirmButtonText: "Si, eliminarlo!",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                var data = $("#FormDelete").serialize();
+                $.ajax({
+                    method: "DELETE",
+                    url: "/prestamo/" + id,
+                    dataType: "json",
+                    data: data,
+                    cache: false,
+                    processData: false,
+                    success: function (jsonData) {
+                        if (jsonData.status == "OK") {
+                            Swal.fire({
+                                position: "top-end",
+                                icon: "success",
+                                title: jsonData.message,
+                                showConfirmButton: false,
+                                timer: 1500,
+                            }).then((result) => {
+                                tablePrestamo.ajax.reload();
+                            });
+                        } else {
+                            console.log(
+                                "========'Exception Response'========="
+                            );
+                            console.log(jsonData.exception);
+                            Swal.fire({
+                                icon: "error",
+                                title: "Oops...",
+                                text: jsonData.message,
+                            });
+                        }
+                    },
+                    error: function (xhr, status) {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Oops...",
+                            text: "A ocurrido un error, por favor inténtelo de nuevo!!",
+                        });
+                    },
+                    complete: function (xhr, status) {
+                        //alert('Petición realizada');
+                    },
+                });
+            }
+        });
+    });
+
+
     $.ajax({
         method: "GET",
         url: "/roles",
@@ -1384,6 +1593,30 @@ $(document).ready(function () {
         processData: false,
         success: function (jsonData) {
             $("#FormLibro [name='id_categoria']").select2({
+                data: jsonData.results,
+            });
+        },
+    });
+    $.ajax({
+        method: "GET",
+        url: "/libros",
+        dataType: "json",
+        cache: false,
+        processData: false,
+        success: function (jsonData) {
+            $("#FormPrestar [name='id_libro']").select2({
+                data: jsonData.results,
+            });
+        },
+    });
+    $.ajax({
+        method: "GET",
+        url: "/usuarios?rol=Estudiante",
+        dataType: "json",
+        cache: false,
+        processData: false,
+        success: function (jsonData) {
+            $("#FormPrestar [name='id_estudiante']").select2({
                 data: jsonData.results,
             });
         },

@@ -17,8 +17,18 @@ class Prestamo extends Model
         'devuelto',
         'fecha_dev',
         'estado_dev',
+        'observacion',
         'id_libro',
         'id_estudiante',
-        'id_usuario',
     ];
+
+    public function estudiante()
+    {
+        return $this->belongsTo(User::class, 'id_estudiante');
+    }
+
+    public function libro()
+    {
+        return $this->belongsTo(Libro::class, 'id_libro');
+    }
 }

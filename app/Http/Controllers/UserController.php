@@ -15,31 +15,44 @@ class UserController extends Controller
         return view('usuario');
     }
 
-    public function list()
+    public function list(Request $request)
     {
         $data = array();
+        $results = array();
 
         try {
+
             $users = User::all();
 
             foreach ($users as $user) {
-                $row = array();
 
-                $buttons = "<button iduser = '" . $user->id . "' type='button' class='btn btn-primary btn-edit'><i class='fa fa-magic'></i>&nbsp;&nbsp;Editar</button>&nbsp;&nbsp;<button iduser = '" . $user->id . " type='button' class='btn btn-danger btn-delete'><i class='fa fa-trash'></i>&nbsp;&nbsp;Eliminar</button>";
+                if ($request->rol == null || $request->rol == $user->rol->nombre) {
+                    $row = array();
 
-                array_push($row, $user->nombre . " " . $user->apellido);
-                array_push($row, $user->rol->nombre);
-                array_push($row, $user->email);
-                array_push($row, $user->estado == 1 ? "Activo" : "Inactivo");
-                array_push($row, $buttons);
+                    $buttons = "<button iduser = '" . $user->id . "' type='button' class='btn btn-primary btn-edit'><i class='fa fa-magic'></i>&nbsp;&nbsp;Editar</button>&nbsp;&nbsp;<button iduser = '" . $user->id . " type='button' class='btn btn-danger btn-delete'><i class='fa fa-trash'></i>&nbsp;&nbsp;Eliminar</button>";
 
-                array_push($data, $row);
+                    array_push($row, $user->nombre . " " . $user->apellido);
+                    array_push($row, $user->rol->nombre);
+                    array_push($row, $user->email);
+                    array_push($row, $user->estado == 1 ? "Activo" : "Inactivo");
+                    array_push($row, $buttons);
+
+                    array_push($data, $row);
+
+                    $option = (object) [
+                        'id' => $user->id,
+                        'text' => $user->nombre . " " . $user->apellido,
+                    ];
+
+                    array_push($results, $option);
+                }
             }
         } catch (Exception $ex) {
             $data = array();
+            $results = array();
         }
 
-        return response()->json(['status' => 'OK', 'timestamp' => Carbon::now(), "message" => "Usuarios consultados correctamente!!", "data" => $data, "exception" => null]);
+        return response()->json(['status' => 'OK', 'timestamp' => Carbon::now(), "message" => "Usuarios consultados correctamente!!", "data" => $data, "results" => $results,  "exception" => null]);
     }
 
     public function store(Request $request)

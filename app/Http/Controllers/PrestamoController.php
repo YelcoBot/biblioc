@@ -25,14 +25,17 @@ class PrestamoController extends Controller
 
             foreach ($prestamos as $prestamo) {
                 $row = array();
+                $buttons = "";
 
-                $buttons = "<button idprestamo = '" . $prestamo->id . "' type='button' class='btn btn-primary btn-edit'><i class='fa fa-magic'></i>&nbsp;&nbsp;Editar</button>&nbsp;&nbsp;<button idprestamo = '" . $prestamo->id . " type='button' class='btn btn-danger btn-delete'><i class='fa fa-trash'></i>&nbsp;&nbsp;Eliminar</button>";
+                if ($prestamo->devuelto != 1) {
+                    $buttons = "<button idprestamo = '" . $prestamo->id . "' type='button' class='btn btn-primary btn-edit'><i class='fa fa-magic'></i>&nbsp;&nbsp;Entregar</button>";
+                }
 
                 array_push($row, $prestamo->estudiante->nombre . " " . $prestamo->estudiante->apellido);
                 array_push($row, $prestamo->libro->titulo . " " . $prestamo->libro->editorial->nombre);
                 array_push($row, Carbon::parse($prestamo->fecha_pres)->format('m/d/Y'));
-                array_push($row, $prestamo->devuelto == 1 ? "Devuelto" : "Sin devolver");
-                array_push($row, $prestamo->estado_dev == 1 ? "Bueno" : ($prestamo->estado_dev == 0 ?  "Sin devolver" : ""));
+                array_push($row, $prestamo->devuelto == 1 ? "Si" : "No");
+                array_push($row, $prestamo->estado_dev == 1 && $prestamo->devuelto == 1 ? "Bueno" : ($prestamo->estado_dev == 0 && $prestamo->devuelto == 1 ?  "Malo" : ""));
                 array_push($row,  $buttons);
 
                 array_push($data, $row);
@@ -51,17 +54,17 @@ class PrestamoController extends Controller
             if ($request->metodo != "Crear") {
                 $id  = $request->id;
                 $prestamo = Prestamo::find($id);
-            }
-            $prestamo->titulo = $request->titulo;
-            $prestamo->n_pag = $request->n_pag;
-            $prestamo->fecha_edicion = $request->fecha_edicion;
-            $prestamo->id_editorial = $request->id_editorial;
-            $prestamo->id_categoria = $request->id_categoria;
 
-            $file = $request->file('archivo');
-            if ($file != null) {
-                $prestamo->archivo = $file->getClientOriginalName();
-                $file->move("uploads", $file->getClientOriginalName());
+                $prestamo->devuelto = true;
+                $prestamo->fecha_dev = Carbon::now();
+                $prestamo->estado_dev = $request->estado_dev == "on" ? true : false;
+                $prestamo->observacion = $request->observacion;
+            } else {
+                $prestamo->devuelto = false;
+                $prestamo->fecha_pres = $request->fecha_pres;
+                $prestamo->estado_pres = $request->estado_pres == "on" ? true : false;
+                $prestamo->id_libro = $request->id_libro;
+                $prestamo->id_estudiante = $request->id_estudiante;
             }
 
             $prestamo->save();
@@ -80,7 +83,8 @@ class PrestamoController extends Controller
             if ($prestamo == null) {
                 return response()->json(['status' => 'NOK', 'timestamp' => Carbon::now(), "message" => "Prestamo inexistente!!", "data" => null, "exception" => null]);
             }
-            $prestamo->autores = $prestamo->autores;
+            $prestamo->libro = $prestamo->libro;
+            $prestamo->estudiante = $prestamo->estudiante;
         } catch (Exception $ex) {
             return response()->json(['status' => 'NOK', 'timestamp' => Carbon::now(), "message" => "Error al consultar el prestamo!!", "data" => $prestamo, "exception" => $ex]);
         }

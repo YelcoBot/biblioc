@@ -19,6 +19,7 @@ class LibroController extends Controller
     public function list()
     {
         $data = array();
+        $results = array();
 
         try {
             $libros = Libro::all();
@@ -40,12 +41,20 @@ class LibroController extends Controller
                 array_push($row, $buttonarchivo . $buttons);
 
                 array_push($data, $row);
+
+                $option = (object) [
+                    'id' => $libro->id,
+                    'text' => $libro->titulo . " - " . $libro->editorial->nombre,
+                ];
+
+                array_push($results, $option);
             }
         } catch (Exception $ex) {
             $data = array();
+            $results = array();
         }
 
-        return response()->json(['status' => 'OK', 'timestamp' => Carbon::now(), "message" => "Libros consultados correctamente!!", "data" => $data, "exception" => null]);
+        return response()->json(['status' => 'OK', 'timestamp' => Carbon::now(), "message" => "Libros consultados correctamente!!", "data" => $data, "results" => $results, "exception" => null]);
     }
 
     public function store(Request $request)

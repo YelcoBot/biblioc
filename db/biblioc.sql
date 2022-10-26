@@ -5,8 +5,10 @@ CREATE TABLE `prestamo` (
   `devuelto` binary(1) DEFAULT NULL,
   `fecha_dev` date DEFAULT NULL,
   `estado_dev` binary(1) DEFAULT NULL,
+  `observacion` text COLLATE utf8_spanish2_ci DEFAULT NULL,
   `id_libro` int(11) NOT NULL,
   `id_estudiante` int(11) NOT NULL,
-  `id_usuario` int(11) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;

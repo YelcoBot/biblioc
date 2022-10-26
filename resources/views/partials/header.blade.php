@@ -174,6 +174,10 @@
                     <a href="{!! url('libro') !!}">
                         <i class="fas fa-book"></i>Libros</a>
                 </li>
+                <li>
+                    <a href="{!! url('prestamo') !!}">
+                        <i class="fas fa-book"></i>Prestamos</a>
+                </li>
             </ul>
         </nav>
     </div>
