@@ -1443,9 +1443,9 @@ $(document).ready(function () {
                                 $(`#FormDevolver [name="${key}"]`)
                                     .prop("checked", true)
                                     .trigger("change");
-                                $("#FormDevolver [name='estado_dev']").bootstrapToggle(
-                                    "on"
-                                );
+                                $(
+                                    "#FormDevolver [name='estado_dev']"
+                                ).bootstrapToggle("on");
                             }
                         } else {
                             $(`#FormDevolver [name="${key}"]`)
@@ -1462,6 +1462,75 @@ $(document).ready(function () {
                         timer: 1500,
                     }).then((result) => {
                         $("#ModalDevolver").modal({
+                            keyboard: false,
+                            backdrop: "static",
+                        });
+                    });
+                } else {
+                    console.log("========'Exception Response'=========");
+                    console.log(jsonData.exception);
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: jsonData.message,
+                    });
+                }
+            },
+            error: function (xhr, status) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "A ocurrido un error, por favor inténtelo de nuevo!!",
+                });
+            },
+            complete: function (xhr, status) {
+                //alert('Petición realizada');
+            },
+        });
+    });
+    $("#TablePrestamo").on("click", ".btn-view", function () {
+        $("#FormPrestamo")[0].reset();
+        $("#FormPrestamo [name='metodo']").val("Editar");
+        $("#FormPrestamo [name='id']").val("");
+        $("#FormPrestamo select").val(null).trigger("change");
+        $("#FormPrestamo [name='estado_dev']").bootstrapToggle("off");
+
+        var id = $(this).attr("idprestamo");
+        $.ajax({
+            method: "GET",
+            url: "/prestamo/" + id,
+            dataType: "json",
+            cache: false,
+            processData: false,
+            success: function (jsonData) {
+                if (jsonData.status == "OK") {
+                    for (const [key, value] of Object.entries(jsonData.data)) {
+                        if (key == "estado_dev") {
+                            if (value == "1") {
+                                $(`#FormPrestamo [name="${key}"]`)
+                                    .prop("checked", true)
+                                    .prop("disabled", true)
+                                    .trigger("change");
+                                $(
+                                    "#FormPrestamo [name='estado_dev']"
+                                ).bootstrapToggle("on");
+                            }
+                        } else {
+                            $(`#FormPrestamo [name="${key}"]`)
+                                .val(value)
+                                .prop("disabled", true)
+                                .trigger("change");
+                        }
+                    }
+
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: jsonData.message,
+                        showConfirmButton: false,
+                        timer: 1500,
+                    }).then((result) => {
+                        $("#ModalPrestamo").modal({
                             keyboard: false,
                             backdrop: "static",
                         });
@@ -1547,7 +1616,6 @@ $(document).ready(function () {
             }
         });
     });
-
 
     $.ajax({
         method: "GET",

@@ -30,6 +30,7 @@ class PrestamoController extends Controller
                 if ($prestamo->devuelto != 1) {
                     $buttons = "<button idprestamo = '" . $prestamo->id . "' type='button' class='btn btn-primary btn-edit'><i class='fa fa-magic'></i>&nbsp;&nbsp;Entregar</button>";
                 }
+                $buttons .= "<button idprestamo = '" . $prestamo->id . "' type='button' class='btn btn-success btn-edit'><i class='fa fa-eye'></i>&nbsp;&nbsp;Ver</button>";
 
                 array_push($row, $prestamo->estudiante->nombre . " " . $prestamo->estudiante->apellido);
                 array_push($row, $prestamo->libro->titulo . " " . $prestamo->libro->editorial->nombre);
